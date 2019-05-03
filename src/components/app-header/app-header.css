@@ -1,0 +1,23 @@
+.header{
+    background-color: #FF4B24;
+    text-align: center;
+    padding: 5px 0 15px 0;
+}
+h1{
+    color: white;
+}
+form button{
+    background-color: #FFA634;
+    border: 0; 
+    height: 32px;
+    font-weight: bold;
+    color: white;
+}
+input{
+    height: 30px;
+    border: 0;
+    margin-left: 10px
+}
+form input{
+    padding-left:5px;
+}

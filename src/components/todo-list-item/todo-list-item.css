@@ -1,0 +1,26 @@
+span .done{
+    text-decoration: line-through; 
+    font-weight: 400;
+}
+span button{
+    display: inline-flex;
+    margin-left: auto;
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    color: #FF4B24;
+    font-size: 20px;
+    width: 30px;
+    right: 10px;
+    top: 8px;
+}
+span button:active{
+    outline:none;
+}
+.content {
+    position: absolute;
+    left: 28px;
+    top: 6px;
+    font-size: 22px;
+    font-weight: bold;
+}
