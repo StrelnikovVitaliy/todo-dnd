@@ -1,24 +1,6 @@
 import React, { Component } from 'react';
-import { DragSource } from 'react-dnd';
 
 import './todo-list-item.css';
-
-const itemSource = {
-    beginDrag(props) {
-        return props.item;
-    },
-    endDrag(props, monitor, component) {
-        return props.handleDrop(props.item.id);
-    }
-}
-
-function collect(connect, monitor) {
-    return {
-        connectDragSource: connect.dragSource(),
-        connectDragPreview: connect.dragPreview(),
-        isDragging: monitor.isDragging()
-    }
-}
 
 class TodoListItem extends Component {
     constructor() {
@@ -36,25 +18,26 @@ class TodoListItem extends Component {
     };
 
     render() {
-        const { isDragging, connectDragSource, item } = this.props;
-        const { onDeleted, number } = this.props;
+        const { id, onDeleted, number } = this.props;
         const { done } = this.state;
         let classNames = '';
         if (done) {
             classNames += 'done';
         }
         return (
-            <span className='item'>
-                <input
-                    type="checkbox"
-                    checked={done}
-                    onChange={this.handleChange}>
-                </input>
-                <span className={'content ' + classNames}>{number + 1}. {this.props.label}</span>
-                <button
-                    onClick={onDeleted}>X</button>
-            </span>)
-        };
+            (<li key={id}>
+                <span className='item'>
+                    <input
+                        type="checkbox"
+                        checked={done}
+                        onChange={this.handleChange}>
+                    </input>
+                    <span className={'content ' + classNames}>{number + 1}. {this.props.label}</span>
+                    <button
+                        onClick={onDeleted}>X</button>
+                </span>
+            </li>))
+    };
 };
 TodoListItem.defaultProps = {
     done: false,
@@ -62,4 +45,4 @@ TodoListItem.defaultProps = {
     number: 0
 };
 
-export default DragSource('item', itemSource, collect)(TodoListItem)
+export default TodoListItem;

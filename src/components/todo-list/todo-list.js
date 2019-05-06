@@ -1,28 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TodoListItem from '../todo-list-item';
+import { SortableElement } from 'react-sortable-hoc';
+
+
 import './todo-list.css';
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
+const SortableItem = SortableElement(TodoListItem);
 
-const TodoList = ({ todos, onDeleted }) => {
 
-    const elements = todos.map((item, index) => {
-        const { id, ...itemProps } = item;
+class TodoList extends Component {
+    getList() {
+        const { todoData, onDeleted } = this.props;
+
+        return todoData.map((item, index) => (
+            <SortableItem
+                label={item.label}
+                id={item.id}
+                key={item.id}
+                number={index}
+                index={index}
+                done={item.done}
+                onDeleted={() => onDeleted(item.id)} />
+
+        ));
+    }
+
+    render() {
         return (
-            <li key={id}>
-                <TodoListItem
-                    {...itemProps}
-                    number={index}
-                    onDeleted = {() => onDeleted(id)} />
-            </li>
+            <ul>
+                {this.getList()}
+            </ul>
         );
-    });
-
-    return (
-        <ul>
-            {elements}
-        </ul>
-    );
+    }
 };
+TodoList.defaultProps = {
+    todoData: [],
+    onDeleted: () => null
+}
 
-export default DragDropContext(HTML5Backend)(TodoList)
+export default TodoList;

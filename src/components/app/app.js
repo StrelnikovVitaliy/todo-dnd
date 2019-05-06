@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
 import AppHeader from '../app-header';
 import TodoList from '../todo-list';
+import { SortableContainer, arrayMove } from 'react-sortable-hoc';
+
+
 import './app.css';
+const SortableList = SortableContainer(TodoList);
+
 
 export default class App extends Component {
-    maxId = 100;
+
 
     state = {
         todoData: [
-            { label: 'first task', done: false, id: 1 },
-            { label: 'second task', done: false, id: 2 },
-            { label: 'third task', done: false, id: 3 }
+            { label: 'first task', done: false, id: Math.random() },
+            { label: 'second task', done: false, id: Math.random() },
+            { label: 'third task', done: false, id: Math.random() }
         ]
     };
+    onSortEnd = ({ oldIndex, newIndex }) => {
+        this.setState({
+            todoData: arrayMove(this.state.todoData, oldIndex, newIndex),
+        });
+    };
+
 
     deleteItem = (id) => {
         this.setState(({ todoData }) => {
@@ -33,7 +44,7 @@ export default class App extends Component {
         const newItem = {
             label: text,
             done: false,
-            id: this.maxId++
+            id: Math.random(),
         };
         this.setState(({ todoData }) => {
             const newArr = [
@@ -48,12 +59,16 @@ export default class App extends Component {
     render() {
         return (
             <div className='app'>
-                <AppHeader 
-                onItemAdded={this.addItem}/>
-                <TodoList
-                    todos={this.state.todoData}
-                    onDeleted={this.deleteItem} />
+                <AppHeader
+                    onItemAdded={this.addItem} />
+                <SortableList
+                    {...this.state}
+                    todoData={this.state.todoData}
+                    onDeleted={this.deleteItem}
+                    onSortEnd={this.onSortEnd} />
             </div>
         );
     }
 }
+
+
